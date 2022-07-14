@@ -21,8 +21,22 @@ const LoginProvider = ({ children }) => {
       setValidador(false);
     }
   };
+
+  const salvaDadosNoLocalStore = () => {
+    localStorage.setItem('user', JSON.stringify({ email: dados.email }));
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+  };
   return (
-    <LoginContext.Provider value={ { dados, setDados, validador, validadorDados } }>
+    <LoginContext.Provider
+      value={ {
+        dados,
+        setDados,
+        validador,
+        validadorDados,
+        salvaDadosNoLocalStore,
+      } }
+    >
       {children}
     </LoginContext.Provider>
   );
