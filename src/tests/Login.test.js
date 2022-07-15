@@ -45,9 +45,13 @@ describe("Validar se os elementos estão na tela", () => {
 
     expect(btnSubmit.disabled).toBeFalsy();
 
-    await waitFor(() => {
-      userEvent.click(btnSubmit);
-      expect(history.location.pathname).toBe("/foods");
-    });
+
+    userEvent.click(btnSubmit)
+    expect(screen.getByRole('heading', {  name: /foods/i})).toBeInTheDocument()
+
+    // await waitFor(() => {
+    //   userEvent.click(btnSubmit);
+    //   expect(history.location.pathname).toBe("/foods");
+    // });
   });
 });
