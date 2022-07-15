@@ -12,6 +12,9 @@ function App() {
         <Switch>
           <LoginProvider>
             <Route exact path="/" component={ Login } />
+            <Route exact path="/foods" component={ Foods } />
+            <Route exact path="/drinks" component={ Drinks } />
+            <Route exact path="/profile" component={ Profile } />
           </LoginProvider>
         </Switch>
       </BrowserRouter>
