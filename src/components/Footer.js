@@ -1,5 +1,6 @@
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../images/mealIcon.svg';
 import './Footer.css';
 
 function Footer() {
@@ -7,14 +8,14 @@ function Footer() {
     <footer data-testid="footer">
       <a href="/drinks">
         <img
-          src="../images/drinkIcon.svg"
+          src={ drinkIcon }
           alt="Ícone de bedidas"
-          data-testid="drink-bottom-btn"
+          data-testid="drinks-bottom-btn"
         />
       </a>
       <a href="/foods">
         <img
-          src="../images/mealIcon.svg"
+          src={ mealIcon }
           alt="Ícone de comida"
           data-testid="food-bottom-btn"
         />
