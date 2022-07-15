@@ -1,19 +1,32 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { LoginContext } from '../context/Login/LoginContext';
 
 const Login = () => {
-  const { dados, setDados, validadorDados, validador } = useContext(LoginContext);
+  const {
+    dados,
+    setDados,
+    validadorDados,
+    validador,
+    salvaDadosNoLocalStore } = useContext(LoginContext);
+
+  const navigate = useHistory();
 
   const handleChange = (e) => {
-    e.preventDefault();
     const { name, value } = e.target;
     setDados({ ...dados, [name]: value });
     validadorDados(dados);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    salvaDadosNoLocalStore();
+    navigate.push('/foods');
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={ handleSubmit }>
         <label htmlFor="email">
           Email
           <input
