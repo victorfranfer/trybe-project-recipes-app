@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="meals">
       <BrowserRouter>
-        <Routes />
+          <Routes />
       </BrowserRouter>
     </div>
   );

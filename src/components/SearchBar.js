@@ -1,18 +1,36 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { LoginContext } from '../context/Login/LoginContext';
 import './SearchBar.css';
+import { filterDrink, filterFood } from '../services';
 
 function SearchBar() {
+  const { getType, textInput, typeFilter, apiFoods, apiDrinks } = useContext(LoginContext);
+
+  const search = async () => {
+    const location = document.location.href;
+    const url = 'http://localhost:3000/';
+    const drinks = await filterDrink(typeFilter, textInput);
+    const foods = await filterFood(typeFilter, textInput)
+
+    switch (location) {
+    case `${url}drinks`:
+      apiDrinks.push(...drinks.drinks);
+      console.log(apiDrinks);
+    case `${url}foods`:
+      apiFoods.push(...foods.meals);
+      console.log(apiFoods);
+    }
+  }
+
   return (
     <div>
-      <input
-        type='text'
-      />
       <label htmlFor='ingredient'>
         <input
           type='radio'
           data-testid="ingredient-search-radio"
-          id='ingrediente'
+          id='ingredient'
           name='search-radio'
+          onClick={ getType }
         />
         Ingredient
       </label>
@@ -22,6 +40,7 @@ function SearchBar() {
           data-testid="name-search-radio"
           id='name'
           name='search-radio'
+          onClick={ getType }
         />
         Name
       </label>
@@ -31,11 +50,13 @@ function SearchBar() {
           data-testid="first-letter-search-radio"
           id='first-letter'
           name='search-radio'
+          onClick={ getType }
         />
         First Letter
       </label>
       <button
         data-testid="exec-search-btn"
+        onClick={ search }
       >
         Search
       </button>
