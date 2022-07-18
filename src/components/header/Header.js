@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
+import SearchBar from '../SearchBar';
+import { LoginContext } from '../../context/Login/LoginContext';
 
 function Header({ title, search }) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const handleInput = () => {
     setButtonDisabled(!buttonDisabled);
   };
+
+  const { getText } = useContext(LoginContext);
 
   return (
     <header>
@@ -35,11 +39,15 @@ function Header({ title, search }) {
         </button>)}
 
       {!buttonDisabled && (
-        <input
-          data-testid="search-input"
-          type="text"
-          placeholder="Search"
-        />
+        <div>
+          <input
+            data-testid="search-input"
+            type="text"
+            placeholder="Search"
+            onChange={ getText }
+          />
+          <SearchBar />
+        </div>
       )}
       <h1 data-testid="page-title">{title}</h1>
     </header>
