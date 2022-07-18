@@ -24,7 +24,7 @@ const LoginProvider = ({ children }) => {
   const getText = ({ target }) => {
     setTextInput(target.value);
     console.log(textInput);
-  }
+  };
 
   const getType = ({ target }) => {
     setTypeFilter(target.id);

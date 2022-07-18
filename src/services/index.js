@@ -10,7 +10,7 @@ const nameDrink = (name) => {
   const api = fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`)
     .then((response) => response.json())
     .catch(() => console.log('error'));
-  
+
   return api;
 };
 
@@ -18,8 +18,8 @@ const firstLetterDrink = (firstLatter) => {
   const api = fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${firstLatter}`)
     .then((response) => response.json())
     .catch(() => global.alert('Your search must have only 1 (one) character'));
-    
-    return api;
+
+  return api;
 };
 
 export const filterDrink = (typeFilter, text) => {
@@ -32,7 +32,7 @@ export const filterDrink = (typeFilter, text) => {
     return firstLetterDrink(text);
   default:
     return 'error';
-  };
+  }
 };
 
 const ingredientFood = (ingredient) => {
@@ -47,7 +47,7 @@ const nameFood = (name) => {
   const api = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`)
     .then((response) => response.json())
     .catch(() => console.log('error'));
-  
+
   return api;
 };
 
@@ -55,7 +55,7 @@ const firstLetterFood = (firstLatter) => {
   const api = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${firstLatter}`)
     .then((response) => response.json())
     .catch(() => global.alert('Your search must have only 1 (one) character'));
-  
+
   return api;
 };
 
@@ -69,5 +69,5 @@ export const filterFood = (typeFilter, text) => {
     return firstLetterFood(text);
   default:
     return 'error';
-  };
+  }
 };
