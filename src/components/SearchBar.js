@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { LoginContext } from '../context/Login/LoginContext';
+import './SearchBar.css';
 import { filterDrink, filterFood } from '../services';
 
 function SearchBar() {
