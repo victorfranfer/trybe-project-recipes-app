@@ -1,7 +1,7 @@
 import React from 'react';
 
 const DrinksInProgress = () => (
-  <div>DrinksInProgre</div>
+  <div>DrinksInProgress</div>
 );
 
 export default DrinksInProgress;
