@@ -12,7 +12,7 @@ function Header({ title, search }) {
     setButtonDisabled(!buttonDisabled);
   };
 
-  const getText = useContext(LoginContext);
+  const { getText } = useContext(LoginContext);
 
   return (
     <header>
