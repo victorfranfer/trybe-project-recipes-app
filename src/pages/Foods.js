@@ -39,7 +39,6 @@ function Foods() {
 
   return (
     <div>
-      <h1>Food</h1>
       <Header title="Foods" search />
       {foods}
       <Footer />
