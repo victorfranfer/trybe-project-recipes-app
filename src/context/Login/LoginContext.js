@@ -11,6 +11,8 @@ const LoginProvider = ({ children }) => {
     password: '',
   });
 
+  const [checkLength, setCheckLength] = useState(false);
+
   const [apiDrinks, setApiDrinks] = useState([]);
 
   const [apiFoods, setApiFoods] = useState([]);
@@ -20,6 +22,12 @@ const LoginProvider = ({ children }) => {
   const [typeFilter, setTypeFilter] = useState('');
 
   const [textInput, setTextInput] = useState('');
+
+  const check = (api) => {
+    if (api > 1) {
+      setCheckLength(true);
+    }
+  };
 
   const getText = ({ target }) => {
     setTextInput(target.value);
@@ -61,6 +69,8 @@ const LoginProvider = ({ children }) => {
         apiFoods,
         setApiDrinks,
         setApiFoods,
+        checkLength,
+        check,
       } }
     >
       {children}
