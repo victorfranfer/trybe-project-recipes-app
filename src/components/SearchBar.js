@@ -7,8 +7,8 @@ function SearchBar() {
     getType,
     textInput,
     typeFilter,
-    apiFoods,
-    apiDrinks,
+    setApiDrinks,
+    setApiFoods,
   } = useContext(LoginContext);
 
   const search = async () => {
@@ -19,12 +19,12 @@ function SearchBar() {
 
     switch (location) {
     case `${url}drinks`:
-      apiDrinks.push(...drinks.drinks);
-      console.log(apiDrinks);
+      setApiDrinks([...drinks.drinks]);
+      console.log(drinks.drinks);
       break;
     case `${url}foods`:
-      apiFoods.push(...foods.meals);
-      console.log(apiFoods);
+      setApiFoods([...foods.meals]);
+      console.log(foods.meals);
       break;
     default:
       return 'error';
