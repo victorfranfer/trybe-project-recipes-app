@@ -1,7 +1,9 @@
 import React from 'react';
 
 const DrinksDetails = () => (
-  <div>DrinksDetails</div>
+  <div>
+    <h1>DrinksDetails</h1>
+  </div>
 );
 
 export default DrinksDetails;

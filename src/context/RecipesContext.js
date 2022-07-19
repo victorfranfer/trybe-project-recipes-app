@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import propTypes from 'prop-types';
-import isValidEmail from '../../utils/validation';
+import isValidEmail from '../utils/validation';
 
-const LoginContext = React.createContext();
-LoginContext.displayName = 'LoginContext';
+const RecipesContext = React.createContext();
+RecipesContext.displayName = 'RecipesContext';
 
-const LoginProvider = ({ children }) => {
+const RecipesProvider = ({ children }) => {
   const [dados, setDados] = useState({
     email: '',
     password: '',
@@ -23,6 +23,8 @@ const LoginProvider = ({ children }) => {
 
   const [textInput, setTextInput] = useState('');
 
+  const [alert, setAlert] = useState(false);
+
   const check = (api) => {
     if (api > 1) {
       setCheckLength(true);
@@ -31,13 +33,15 @@ const LoginProvider = ({ children }) => {
 
   const getText = ({ target }) => {
     setTextInput(target.value);
-    console.log(textInput);
   };
 
   const getType = ({ target }) => {
     setTypeFilter(target.id);
-    console.log(typeFilter);
   };
+
+  useEffect(() => {
+    console.log(typeFilter);
+  }, [typeFilter]);
 
   const validadorDados = (infos) => {
     const PASSWORD_LEGTH = 6;
@@ -54,7 +58,7 @@ const LoginProvider = ({ children }) => {
     localStorage.setItem('cocktailsToken', 1);
   };
   return (
-    <LoginContext.Provider
+    <RecipesContext.Provider
       value={ {
         dados,
         setDados,
@@ -71,15 +75,17 @@ const LoginProvider = ({ children }) => {
         setApiFoods,
         checkLength,
         check,
+        setAlert,
+        alert,
       } }
     >
       {children}
-    </LoginContext.Provider>
+    </RecipesContext.Provider>
   );
 };
 
-LoginProvider.propTypes = {
+RecipesProvider.propTypes = {
   children: propTypes.node.isRequired,
 };
 
-export { LoginContext, LoginProvider };
+export { RecipesContext, RecipesProvider };
