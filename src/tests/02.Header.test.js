@@ -103,7 +103,7 @@ describe('Testando os componentes do header', () => {
   });
 
   test('Verifica se o header leva para a página profile', () => {
-    renderWithRouter(<Drinks />);
+    renderWithRouterProvider(<Drinks />);
 
     const searchProfile = screen.getByTestId('profile-top-btn');
     userEvent.click(searchProfile);

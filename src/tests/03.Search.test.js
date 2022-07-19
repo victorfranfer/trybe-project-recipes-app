@@ -2,6 +2,7 @@ import React from 'react';
 import { screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
+import responseDrinks from './mockdrinks';
 import Drinks from '../pages/Drinks';
 
 describe('verifica o componenete Search.js', () => {
@@ -34,7 +35,7 @@ describe('verifica o componenete Search.js', () => {
     expect(buttonSearch).toBeInTheDocument();
   });
   test('verifica se ao fizer busca renderiza resultados', () => {
-    renderWithRouter(<Drinks />);
+    renderWithRouterProvider(<Drinks />);
 
     const searchBtn = screen.getByTestId('search-top-btn');
     
