@@ -1,10 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
-import SearchBar from '../SearchBar';
-import { LoginContext } from '../../context/Login/LoginContext';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
+import { RecipesContext } from '../context/RecipesContext';
 
 function Header({ title, search }) {
   const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -12,7 +12,7 @@ function Header({ title, search }) {
     setButtonDisabled(!buttonDisabled);
   };
 
-  const { getText } = useContext(LoginContext);
+  const { getText } = useContext(RecipesContext);
 
   return (
     <header>

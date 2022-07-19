@@ -1,5 +1,4 @@
 import React from 'react';
-import renderWithRouter from './renderWithRouter';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Foods from '../pages/Foods';
@@ -12,10 +11,11 @@ import DrinksInProgress from '../pages/DrinksInProgress';
 import FoodsInProgress from '../pages/FoodsInProgress';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import App from '../App'
+import renderWithRouterProvider from './helper/renderWithRouterProvider';
 
 describe('Testando os componentes do header', () => {
   test('testando componetes da pagina Foods', () => {
-    renderWithRouter(<Foods />);
+    renderWithRouterProvider(<Foods />);
 
     const titlePage = screen.getByTestId('page-title');
     const searchButton = screen.getByTestId('search-top-btn');
@@ -26,7 +26,7 @@ describe('Testando os componentes do header', () => {
   });
 
   test('testando componetes da pagina Drinks', () => {
-    renderWithRouter(<Drinks />);
+    renderWithRouterProvider(<Drinks />);
 
     const titlePage = screen.getByTestId('page-title');
     const searchButton = screen.getByTestId('search-top-btn');
@@ -37,7 +37,7 @@ describe('Testando os componentes do header', () => {
   });
 
   test('testando componetes da pagina Profile', () => {
-    renderWithRouter(<Profile />);
+    renderWithRouterProvider(<Profile />);
 
     const titlePage = screen.getByTestId('page-title');
     const searchProfile = screen.getByTestId('profile-top-btn');
@@ -46,37 +46,37 @@ describe('Testando os componentes do header', () => {
   });
 
   test('testando componetes da pagina Foods Details', () => {
-    renderWithRouter(<FoodsDetails />);
+    renderWithRouterProvider(<FoodsDetails />);
     const titlePage = screen.getByText(/foodsdetails/i);
     expect(titlePage).toBeInTheDocument();
   });
 
   test('testando componetes da pagina Drinks Details', () => {
-    renderWithRouter(<DrinksDetails />);
+    renderWithRouterProvider(<DrinksDetails />);
     const titlePage = screen.getByText(/drinksdetails/i);
     expect(titlePage).toBeInTheDocument();
   });
 
   test('testando componetes da pagina Done recipes', () => {
-    renderWithRouter(<DoneRecipes />);
+    renderWithRouterProvider(<DoneRecipes />);
     const titlePage = screen.getByRole('heading', { name: /done recipes/i });
     expect(titlePage).toBeInTheDocument();
   });
 
   test('testando componetes da pagina Drinks progress', () => {
-    renderWithRouter(<DrinksInProgress />);
+    renderWithRouterProvider(<DrinksInProgress />);
     const titlePage = screen.getByText(/drinksinprogress/i);
     expect(titlePage).toBeInTheDocument();
   });
 
   test('testando componetes da pagina Done recipes', () => {
-    renderWithRouter(<FoodsInProgress />);
+    renderWithRouterProvider(<FoodsInProgress />);
     const titlePage = screen.getByText(/foodsinprogress/i);
     expect(titlePage).toBeInTheDocument();
   });
 
   test('testando componetes da pagina Done recipes', () => {
-    renderWithRouter(<FavoriteRecipes />);
+    renderWithRouterProvider(<FavoriteRecipes />);
     const titlePage = screen.getByRole('heading', {
       name: /favorite recipes/i,
     });
@@ -84,7 +84,7 @@ describe('Testando os componentes do header', () => {
   });
 
   test('testando o input search', () => {
-    renderWithRouter(<App />);
+    renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const submitBtn = screen.getByTestId('login-submit-btn');
