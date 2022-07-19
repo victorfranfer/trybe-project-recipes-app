@@ -1,6 +1,7 @@
 import React from "react";
 import { screen } from "@testing-library/react";
-import { waitFor, cleanup } from "@testing-library/react";
+import { cleanup } from "@testing-library/react";
+import { useHistory } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
@@ -35,7 +36,8 @@ describe("Validar se os elementos estão na tela", () => {
   });
 
   test("Testa se ao submeter o formulario, o usuario é redirecionado para a pagina de foods", async () => {
-    const { history } = renderWithRouterProvider(<App />);
+    const { history } = useHistory();
+    renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");
