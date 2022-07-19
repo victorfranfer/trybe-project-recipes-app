@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/header/Header';
 import { LoginContext } from '../context/Login/LoginContext';
-import './Drinks.css';
 
 function Drinks() {
   const { apiDrinks } = useContext(LoginContext);
