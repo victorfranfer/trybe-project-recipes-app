@@ -2,30 +2,51 @@ import React from 'react';
 import { screen, waitFor, cleanup } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
+import mockFetch from './mocks/mockFetch';
 import { dataResponseCategories, dataResponseDrinks, dataResponseMeals } from './mocks/dataResponseApi';
-import Drinks from '../pages/Drinks';
-import Foods from '../pages/Foods';
+import App from '../App';
 
 global.alert = jest.fn();
 afterEach(cleanup)
 
 describe('verifica o componente Search.js', () => {
-  test('Verifica se a página contem 12 itens renderizados', async () => {
-    renderWithRouterProvider(<Foods />)
+  it('1 - Search bar de drinks redireciona quando tem 1 elemento na lista:', async () => {
+    mockFetch(dataResponseDrinks)
+    const { history } = renderWithRouterProvider(<App />);
+    history.push('/drinks');
 
-    const searchTopBtn = screen.getByTestId('search-top-btn');
-    userEvent.click(searchTopBtn);
-    const radioName = screen.getByTestId('name-search-radio');
-    userEvent.click(radioName);
-    const input = screen.getByTestId('search-input');
-    userEvent.type(input, 'chicken');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
-    userEvent.click(execSearchBtn);
+    const searchIconElem = await screen.findByTestId('search-top-btn');
+    userEvent.click(searchIconElem);
+    const searchBarElem = await screen.findByTestId('search-input');
+    const searchBtnElem = await screen.findByTestId('exec-search-btn')
+    const radioNameElem = await screen.findByTestId('name-search-radio');
+    
+    expect(searchBarElem).toBeInTheDocument();
+    expect(searchBtnElem).toBeInTheDocument();
+    expect(radioNameElem).toBeInTheDocument();
+
+    userEvent.click(radioNameElem);
+    userEvent.type(searchBarElem, 'florida');
+    userEvent.click(searchBtnElem);
+
+    await waitFor(() => expect(history.location.pathname).toBe('/drinks/14588'), { timeout: 4000});
+  });
+  // test('Verifica se a página contem 12 itens renderizados', async () => {
+  //   renderWithRouterProvider(<Foods />)
+
+  //   const searchTopBtn = screen.getByTestId('search-top-btn');
+  //   userEvent.click(searchTopBtn);
+  //   const radioName = screen.getByTestId('name-search-radio');
+  //   userEvent.click(radioName);
+  //   const input = screen.getByTestId('search-input');
+  //   userEvent.type(input, 'chicken');
+  //   const execSearchBtn = screen.getByTestId('exec-search-btn');
+  //   userEvent.click(execSearchBtn);
 
 
     
-    expect(await screen.findAllByRole('a')).toHaveLength(12)
-  })
+  //   expect(await screen.findAllByRole('a')).toHaveLength(12)
+  // })
 //   test('verifica os elementos do componente', () => {
 //     renderWithRouterProvider(<Drinks />);
 
