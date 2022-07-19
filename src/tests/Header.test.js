@@ -102,5 +102,13 @@ describe('Testando os componentes do header', () => {
     expect(searchBar).not.toBeInTheDocument()
   });
 
+  test('Verifica se o header leva para a página profile', () => {
+    renderWithRouter(<Drinks />);
+
+    const searchProfile = screen.getByTestId('profile-top-btn');
+    userEvent.click(searchProfile);
+    expect(searchProfile.closest('a')).toHaveAttribute('href', '/profile');
+  })
+
   
 });

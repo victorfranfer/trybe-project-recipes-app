@@ -2,9 +2,20 @@ import React from 'react';
 import { screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './renderWithRouter';
+import responseDrinks from './mockdrinks';
 import Drinks from '../pages/Drinks';
 
 describe('verifica o componenete Search.js', () => {
+  beforeEach(async () => {
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => Promise.resolve(responseDrinks)
+    }));
+  })
+
+  afterEach(() => jest.clearAllMocks());
+
   test('verifica os elementos do componente', () => {
     renderWithRouter(<Drinks />);
 
@@ -22,5 +33,27 @@ describe('verifica o componenete Search.js', () => {
     expect(radio2).toBeInTheDocument();
     expect(radio3).toBeInTheDocument();
     expect(buttonSearch).toBeInTheDocument();
-  })
+  });
+  test('verifica se ao fizer busca renderiza resultados', () => {
+    renderWithRouter(<Drinks />);
+
+    const searchBtn = screen.getByTestId('search-top-btn');
+    
+
+    userEvent.click(searchBtn);
+    const input = screen.getByTestId('search-input');
+
+    expect(input).toBeInTheDocument();
+    userEvent.type(input, 'margarita');
+    const buttonSearch = screen.getByTestId('exec-search-btn');
+    userEvent.click(buttonSearch);
+    jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => Promise.resolve(responseDrinks)
+    }));
+
+    expect(global.fetch).toHaveBeenCalled();
+    expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita');
+  });
 })
