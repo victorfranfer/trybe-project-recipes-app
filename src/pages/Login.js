@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { LoginContext } from '../context/Login/LoginContext';
+import { RecipesContext } from '../context/RecipesContext';
 
 const Login = () => {
   const {
@@ -8,7 +8,7 @@ const Login = () => {
     setDados,
     validadorDados,
     validador,
-    salvaDadosNoLocalStore } = useContext(LoginContext);
+    salvaDadosNoLocalStore } = useContext(RecipesContext);
 
   const navigate = useHistory();
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import { screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from './renderWithRouter';
+import renderWithRouterProvider from './helper/renderWithRouterProvider';
 import Drinks from '../pages/Drinks';
 
 describe('verifica o componenete Search.js', () => {
   test('verifica os elementos do componente', () => {
-    renderWithRouter(<Drinks />);
+    renderWithRouterProvider(<Drinks />);
 
     const button = screen.getByTestId('search-top-btn');
     expect(button).toBeInTheDocument();

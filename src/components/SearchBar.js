@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LoginContext } from '../context/Login/LoginContext';
+import { RecipesContext } from '../context/RecipesContext';
 import { filterDrink, filterFood } from '../services';
 
 function SearchBar() {
@@ -9,7 +9,7 @@ function SearchBar() {
     typeFilter,
     setApiDrinks,
     setApiFoods,
-  } = useContext(LoginContext);
+  } = useContext(RecipesContext);
 
   const search = async () => {
     const location = document.location.href;
@@ -19,12 +19,18 @@ function SearchBar() {
 
     switch (location) {
     case `${url}drinks`:
-      setApiDrinks([...drinks.drinks]);
-      console.log(drinks.drinks);
+      if (drinks.drinks) {
+        setApiDrinks([...drinks.drinks]);
+      } else if (drinks.drinks === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
       break;
     case `${url}foods`:
-      setApiFoods([...foods.meals]);
-      console.log(foods.meals);
+      if (foods.meals) {
+        setApiFoods([...foods.meals]);
+      } else if (foods.meals === null) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      }
       break;
     default:
       return 'error';

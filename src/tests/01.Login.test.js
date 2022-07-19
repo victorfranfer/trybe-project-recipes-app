@@ -3,12 +3,12 @@ import { screen } from "@testing-library/react";
 import { waitFor, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
-import renderWithRouter from "./renderWithRouter";
+import renderWithRouterProvider from './helper/renderWithRouterProvider';
 
 describe("Validar se os elementos estão na tela", () => {
   beforeEach(cleanup);
   test("Farewell, front-end", () => {
-    renderWithRouter(<App />);
+    renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
 
@@ -17,13 +17,13 @@ describe("Validar se os elementos estão na tela", () => {
   });
 
   test("Se botao está desabilitado ao iniciar", () => {
-    renderWithRouter(<App />);
+    renderWithRouterProvider(<App />);
     const btnSubmit = screen.getByTestId("login-submit-btn");
     expect(btnSubmit).toBeDisabled();
   });
 
   test("Se botao está habilitado ao preencher os campos", () => {
-    renderWithRouter(<App />);
+    renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");
@@ -35,7 +35,7 @@ describe("Validar se os elementos estão na tela", () => {
   });
 
   test("Testa se ao submeter o formulario, o usuario é redirecionado para a pagina de foods", async () => {
-    const { history } = renderWithRouter(<App />);
+    const { history } = renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");
