@@ -1,38 +1,25 @@
-import React, { useState } from 'react';
-import { fetchDrinkById, fetchFoodById } from '../services/index';
-
+import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { fetchDrinkById, fetchFoodById } from '../services/index';
 
 function RecipeDetails() {
   const history = useHistory();
-  const [food, setFood] = useState({});
 
   async function getId() {
-    const pathname = history.location.pathname;
+    const { pathname } = history.location;
     const id = pathname.split('/');
     const apiFood = await fetchFoodById(id[2]);
     const apiDrink = await fetchDrinkById(id[2]);
 
     if (id[1] === 'foods') {
-      setFood(apiFood);
+      return apiFood;
     } if (id[1] === 'drinks') {
-      setFood(apiDrink);
+      return apiDrink;
     }
-    
-    // switch (id[1]) {
-    //   case 'foods':
-    //     setFood({...apiFood});
-    //     break;
-    //   case 'drinks':
-    //     setFood(apiDrink);
-    //     break;
-    // };
-  };
-
-  getId();
+  }
 
   return (
-    <button type="button" onClick={ () => console.log(food) }>
+    <button type="button" onClick={ () => console.log(getId()) }>
       Go home
     </button>
   );

@@ -10,7 +10,7 @@ function Foods() {
   const { apiFoods, setApiFoods } = useContext(RecipesContext);
   const [foods, setFoods] = useState();
   const navigate = useHistory();
-  
+
   useEffect(() => {
     const fetchFood = async () => {
       const response = await fetchDataFoods();
@@ -18,7 +18,7 @@ function Foods() {
       setApiFoods(response);
     };
     fetchFood();
-  }, []);
+  }, [setApiFoods]);
 
   useEffect(() => {
     const NUMBER_OF_FOODS = 12;
