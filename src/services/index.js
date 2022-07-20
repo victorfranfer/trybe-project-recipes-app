@@ -71,3 +71,27 @@ export const filterFood = (typeFilter, text) => {
     return 'error';
   }
 };
+
+export const fetchDrinkById = (id) => {
+  const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const resultFetch = fetch(endpoint).then((result) => result.json());
+  console.log(resultFetch);
+  return (resultFetch.drinks);
+};
+
+export const fetchFoodById = (id) => {
+  const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
+  const resultFetch = fetch(endpoint).then((result) => result.json());
+  console.log(resultFetch);
+  return (resultFetch.meals);
+};
+
+export const fetchDataFoods = () => {
+  const endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  return fetch(endPoint).then((result) => result.json()).then((data) => data.meals);
+};
+
+export const fetchDataDrinks = () => {
+  const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  return fetch(endPoint).then((result) => result.json()).then((data) => data.drinks);
+};

@@ -6,7 +6,7 @@ import Drinks from '../pages/Drinks';
 import Profile from '../pages/Profile';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import DoneRecipes from '../pages/DoneRecipes';
-import FoodsDetails from '../pages/FoodsDetails';
+import RecipeDetails from '../pages/RecipeDetails';
 import DrinksDetails from '../pages/DrinksDetails';
 import FoodsInProgress from '../pages/FoodsInProgress';
 import DrinksInProgress from '../pages/DrinksInProgress';
@@ -16,7 +16,7 @@ const Routes = () => (
     <Route exact path="/" component={ Login } />
     <Route exact path="/foods" component={ Foods } />
     <Route exact path="/drinks" component={ Drinks } />
-    <Route exact path="/foods/:id-da-receita" component={ FoodsDetails } />
+    <Route exact path="/foods/:id-da-receita" component={ RecipeDetails } />
     <Route exact path="/drinks/:id-da-receita" component={ DrinksDetails } />
     <Route path="/profile" component={ Profile } />
     <Route path="/favorite-recipes" component={ FavoriteRecipes } />

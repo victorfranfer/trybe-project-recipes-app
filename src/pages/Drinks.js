@@ -3,11 +3,21 @@ import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { RecipesContext } from '../context/RecipesContext';
+import { fetchDataDrinks } from '../services';
 
 function Drinks() {
-  const { apiDrinks } = useContext(RecipesContext);
+  const { apiDrinks, setApiDrinks } = useContext(RecipesContext);
   const [drinks, setDrinks] = useState();
   const navigate = useHistory();
+
+  useEffect(() => {
+    const fetchFood = async () => {
+      const response = await fetchDataDrinks();
+      console.log(response);
+      setApiDrinks(response);
+    };
+    fetchFood();
+  }, [setApiDrinks]);
 
   useEffect(() => {
     const NUMBER_OF_DRINKS = 12;
@@ -38,7 +48,7 @@ function Drinks() {
   }, [apiDrinks, navigate]);
 
   return (
-    <div>
+    <div className="container-drinks">
       <Header title="Drinks" search />
       {drinks}
       <Footer />
