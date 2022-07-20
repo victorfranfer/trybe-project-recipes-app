@@ -17,7 +17,7 @@ function Drinks() {
       setApiDrinks(response);
     };
     fetchFood();
-  }, []);
+  }, [setApiDrinks]);
 
   useEffect(() => {
     const NUMBER_OF_DRINKS = 12;
@@ -48,7 +48,7 @@ function Drinks() {
   }, [apiDrinks, navigate]);
 
   return (
-    <div>
+    <div className="container-drinks">
       <Header title="Drinks" search />
       {drinks}
       <Footer />

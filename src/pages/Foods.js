@@ -21,25 +21,27 @@ function Foods() {
   }, []);
 
   useEffect(() => {
+    const NUMBER_OF_FOODS = 12;
     if (apiFoods.length > 1) {
-      setFoods(apiFoods.map((obj, index) => (
-        <Link to={ `/foods/${obj.idMeal}` } key={ index }>
-          <section
-            style={ {
-              display: 'flex',
-            } }
-            data-testid={ `${index}-recipe-card` }
-            className="card"
-          >
-            <h2 data-testid={ `${index}-card-name` }>{`${obj.strMeal}`}</h2>
-            <img
-              className="imgCard"
-              src={ `${obj.strMealThumb}` }
-              alt={ `${obj.strMeal}` }
-              data-testid={ `${index}-card-img` }
-            />
-          </section>
-        </Link>)));
+      const foodsSliced = apiFoods.slice(0, NUMBER_OF_FOODS);
+
+      setFoods(
+        foodsSliced.map((obj, index) => (
+          <Link to={ `/foods/${obj.idMeal}` } key={ index }>
+            <div
+              data-testid={ `${index}-recipe-card` }
+              className="card"
+            >
+              <h2 data-testid={ `${index}-card-name` }>{`${obj.strMeal}`}</h2>
+              <img
+                className="imgCard"
+                src={ `${obj.strMealThumb}` }
+                alt={ `${obj.strMeal}` }
+                data-testid={ `${index}-card-img` }
+              />
+            </div>
+          </Link>)),
+      );
     } else if (apiFoods.length === 1) {
       navigate.push(`/foods/${apiFoods[0].idMeal}`);
     } else {
@@ -48,9 +50,11 @@ function Foods() {
   }, [apiFoods, navigate]);
 
   return (
-    <div>
+    <div className="container-foods">
       <Header title="Foods" search />
-      {foods}
+      <section className="Foods-container">
+        {foods}
+      </section>
       <Footer />
     </div>
   );
