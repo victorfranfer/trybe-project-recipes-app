@@ -82,7 +82,6 @@ export const fetchDrinkById = (id) => {
 export const fetchFoodById = (id) => {
   const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
   const resultFetch = fetch(endpoint).then((result) => result.json());
-  console.log(resultFetch);
   return (resultFetch.meals);
 };
 
