@@ -18,7 +18,7 @@ function Foods() {
       setApiFoods(response);
     };
     fetchFood();
-  }, []);
+  }, [setApiFoods]);
 
   useEffect(() => {
     const NUMBER_OF_FOODS = 12;
@@ -59,5 +59,4 @@ function Foods() {
     </div>
   );
 }
-
 export default Foods;
