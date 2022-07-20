@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import isValidEmail from '../utils/validation';
 
@@ -12,17 +12,11 @@ const RecipesProvider = ({ children }) => {
   });
 
   const [checkLength, setCheckLength] = useState(false);
-
   const [apiDrinks, setApiDrinks] = useState([]);
-
   const [apiFoods, setApiFoods] = useState([]);
-
   const [validador, setValidador] = useState(false);
-
   const [typeFilter, setTypeFilter] = useState('');
-
   const [textInput, setTextInput] = useState('');
-
   const [alert, setAlert] = useState(false);
 
   const check = (api) => {
@@ -38,10 +32,6 @@ const RecipesProvider = ({ children }) => {
   const getType = ({ target }) => {
     setTypeFilter(target.id);
   };
-
-  useEffect(() => {
-    console.log(typeFilter);
-  }, [typeFilter]);
 
   const validadorDados = (infos) => {
     const PASSWORD_LEGTH = 6;

@@ -3,12 +3,22 @@ import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import { RecipesContext } from '../context/RecipesContext';
+import { fetchDataFoods } from '../services';
 import './Foods.css';
 
 function Foods() {
-  const { apiFoods } = useContext(RecipesContext);
+  const { apiFoods, setApiFoods } = useContext(RecipesContext);
   const [foods, setFoods] = useState();
   const navigate = useHistory();
+
+  useEffect(() => {
+    const fetchFood = async () => {
+      const response = await fetchDataFoods();
+      console.log(response);
+      setApiFoods(response);
+    };
+    fetchFood();
+  }, []);
 
   useEffect(() => {
     if (apiFoods.length > 1) {
