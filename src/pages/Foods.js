@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import FoodCategories from '../components/FoodCategories';
 import { RecipesContext } from '../context/RecipesContext';
 import { fetchDataFoods } from '../services';
 import './Foods.css';
@@ -18,7 +19,7 @@ function Foods() {
       setApiFoods(response);
     };
     fetchFood();
-  }, []);
+  }, [setApiFoods]);
 
   useEffect(() => {
     const NUMBER_OF_FOODS = 12;
@@ -52,6 +53,7 @@ function Foods() {
   return (
     <div className="container-foods">
       <Header title="Foods" search />
+      <FoodCategories />
       <section className="Foods-container">
         {foods}
       </section>

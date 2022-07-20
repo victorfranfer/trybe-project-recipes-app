@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import DrinkCategories from '../components/DrinkCategories';
 import { RecipesContext } from '../context/RecipesContext';
 import { fetchDataDrinks } from '../services';
 
@@ -50,7 +51,10 @@ function Drinks() {
   return (
     <div className="container-drinks">
       <Header title="Drinks" search />
-      {drinks}
+      <DrinkCategories />
+      <section className="Drinks-container">
+        {drinks}
+      </section>
       <Footer />
     </div>
   );
