@@ -64,8 +64,7 @@ function RecipeDetails({
     setDoneRecipes(getRecipeFromLocalStorage('doneRecipes'));
   }, []);
 
-  // eslint-disable-next-line max-len
-  const isThisRecipeDone = () => doneRecipes?.some((doneRecipe) => doneRecipe.id === idDaReceita);
+  const isThisRecipeDone = () => doneRecipes?.some((d) => d.id === idDaReceita);
   const handleClick = () => {
     if (!recipeStatus) {
       const localStorageStructure = {
