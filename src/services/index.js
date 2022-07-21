@@ -75,6 +75,7 @@ export const filterFood = (typeFilter, text) => {
 export const filterFoodByCategory = (category) => {
   const api = fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
     .then((response) => response.json())
+    .then((json) => console.log(json))
     .catch(() => console.log('error'));
   return api;
 };

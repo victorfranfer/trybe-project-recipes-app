@@ -4,11 +4,16 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import FoodCategories from '../components/FoodCategories';
 import { RecipesContext } from '../context/RecipesContext';
-import { fetchDataFoods } from '../services';
+import { fetchDataFoods,
+  // filterFoodByCategory,
+} from '../services';
 import './Foods.css';
 
 function Foods() {
-  const { apiFoods, setApiFoods } = useContext(RecipesContext);
+  const { apiFoods,
+    setApiFoods,
+    // activeFoodCategory,
+  } = useContext(RecipesContext);
   const [foods, setFoods] = useState();
   const navigate = useHistory();
 
@@ -21,11 +26,19 @@ function Foods() {
     fetchFood();
   }, [setApiFoods]);
 
+  // useEffect(() => {
+  //   const fetchCategory = async () => {
+  //     const response = await filterFoodByCategory(activeFoodCategory);
+  //     console.log(response);
+  //     setApiFoods(response.meals);
+  //   };
+  //   fetchCategory();
+  // }, [activeFoodCategory]);
+
   useEffect(() => {
     const NUMBER_OF_FOODS = 12;
     if (apiFoods.length > 1) {
       const foodsSliced = apiFoods.slice(0, NUMBER_OF_FOODS);
-
       setFoods(
         foodsSliced.map((obj, index) => (
           <Link to={ `/foods/${obj.idMeal}` } key={ index }>

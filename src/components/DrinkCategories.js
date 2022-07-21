@@ -1,10 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RecipesContext } from '../context/RecipesContext';
-import { fetchCategoryDrinks } from '../services';
+import {
+  fetchCategoryDrinks,
+  filterDrinkByCategory,
+} from '../services';
 
 function DrinkCategories() {
-  const { apiCategoryDrinks, setApiCategoryDrinks } = useContext(RecipesContext);
+  const { apiCategoryDrinks, setApiCategoryDrinks,
+    activeDrinksCategory, setActiveDrinksCategory } = useContext(RecipesContext);
   const [drinkCategories, setDrinkCategories] = useState();
+
+  const filterCategory = ({ target }) => {
+    setActiveDrinksCategory(target.value);
+    filterDrinkByCategory(activeDrinksCategory);
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,6 +32,9 @@ function DrinkCategories() {
           type="button"
           data-testid={ `${obj.strCategory}-category-filter` }
           key={ index }
+          className="category-btn"
+          onClick={ filterCategory }
+          value={ obj.strCategory }
         >
           { obj.strCategory }
         </button>
@@ -32,6 +44,14 @@ function DrinkCategories() {
 
   return (
     <section className="Category-buttons">
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        value="All"
+        onClick={ filterCategory }
+      >
+        All
+      </button>
       {drinkCategories}
     </section>
   );

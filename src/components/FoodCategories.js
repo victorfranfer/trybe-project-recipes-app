@@ -1,10 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { RecipesContext } from '../context/RecipesContext';
-import { fetchCategoryFoods } from '../services';
+import { fetchCategoryFoods, filterFoodByCategory } from '../services';
 
 function FoodCategories() {
-  const { apiCategoryFoods, setApiCategoryFoods } = useContext(RecipesContext);
+  const { apiCategoryFoods, setApiCategoryFoods,
+    activeFoodCategory, setActiveFoodCategory } = useContext(RecipesContext);
   const [foodCategories, setFoodCategories] = useState();
+
+  const filterCategory = ({ target }) => {
+    setActiveFoodCategory(target.value);
+    filterFoodByCategory(activeFoodCategory);
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,6 +29,9 @@ function FoodCategories() {
           type="button"
           data-testid={ `${obj.strCategory}-category-filter` }
           key={ index }
+          className="category-btn"
+          onClick={ filterCategory }
+          value={ obj.strCategory }
         >
           { obj.strCategory }
         </button>
@@ -32,6 +41,14 @@ function FoodCategories() {
 
   return (
     <section className="Category-buttons">
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        value="All"
+        onClick={ filterCategory }
+      >
+        All
+      </button>
       {foodCategories}
     </section>
   );

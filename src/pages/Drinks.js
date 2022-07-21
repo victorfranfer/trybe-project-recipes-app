@@ -4,21 +4,35 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import DrinkCategories from '../components/DrinkCategories';
 import { RecipesContext } from '../context/RecipesContext';
-import { fetchDataDrinks } from '../services';
+import { fetchDataDrinks,
+  // filterDrinkByCategory,
+} from '../services';
 
 function Drinks() {
-  const { apiDrinks, setApiDrinks } = useContext(RecipesContext);
+  const { apiDrinks,
+    setApiDrinks,
+    // activeDrinksCategory,
+  } = useContext(RecipesContext);
   const [drinks, setDrinks] = useState();
   const navigate = useHistory();
 
   useEffect(() => {
-    const fetchFood = async () => {
+    const fetchDrinks = async () => {
       const response = await fetchDataDrinks();
       console.log(response);
       setApiDrinks(response);
     };
-    fetchFood();
+    fetchDrinks();
   }, [setApiDrinks]);
+
+  // useEffect(() => {
+  //   const fetchCategory = async () => {
+  //     const response = await filterDrinkByCategory(activeDrinksCategory);
+  //     console.log(response);
+  //     setApiDrinks(response.drinks);
+  //   };
+  //   fetchCategory();
+  // }, [activeDrinksCategory]);
 
   useEffect(() => {
     const NUMBER_OF_DRINKS = 12;
