@@ -72,6 +72,21 @@ export const filterFood = (typeFilter, text) => {
   }
 };
 
+export const filterFoodByCategory = (category) => {
+  const api = fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+    .then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch(() => console.log('error'));
+  return api;
+};
+
+export const filterDrinkByCategory = (category) => {
+  const api = fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`)
+    .then((response) => response.json())
+    .catch(() => console.log('error'));
+  return api;
+};
+
 export const fetchDrinkById = (id) => {
   const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
   const resultFetch = fetch(endpoint).then((result) => result.json());
@@ -92,5 +107,15 @@ export const fetchDataFoods = () => {
 
 export const fetchDataDrinks = () => {
   const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  return fetch(endPoint).then((result) => result.json()).then((data) => data.drinks);
+};
+
+export const fetchCategoryFoods = () => {
+  const endPoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  return fetch(endPoint).then((result) => result.json()).then((data) => data.meals);
+};
+
+export const fetchCategoryDrinks = () => {
+  const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
   return fetch(endPoint).then((result) => result.json()).then((data) => data.drinks);
 };

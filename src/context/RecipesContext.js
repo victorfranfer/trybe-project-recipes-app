@@ -14,6 +14,10 @@ const RecipesProvider = ({ children }) => {
   const [checkLength, setCheckLength] = useState(false);
   const [apiDrinks, setApiDrinks] = useState([]);
   const [apiFoods, setApiFoods] = useState([]);
+  const [apiCategoryFoods, setApiCategoryFoods] = useState([]);
+  const [apiCategoryDrinks, setApiCategoryDrinks] = useState([]);
+  const [activeFoodCategory, setActiveFoodCategory] = useState('All');
+  const [activeDrinksCategory, setActiveDrinksCategory] = useState('All');
   const [validador, setValidador] = useState(false);
   const [typeFilter, setTypeFilter] = useState('');
   const [textInput, setTextInput] = useState('');
@@ -63,6 +67,14 @@ const RecipesProvider = ({ children }) => {
         apiFoods,
         setApiDrinks,
         setApiFoods,
+        apiCategoryFoods,
+        setApiCategoryFoods,
+        apiCategoryDrinks,
+        setApiCategoryDrinks,
+        activeFoodCategory,
+        setActiveFoodCategory,
+        activeDrinksCategory,
+        setActiveDrinksCategory,
         checkLength,
         check,
         setAlert,
