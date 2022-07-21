@@ -1,0 +1,16 @@
+.recipe {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.recipe img {
+  border-radius: 8px;
+  width: 180px;
+}
+
+.button-start {
+  bottom: 0;
+  position: fixed;
+}
