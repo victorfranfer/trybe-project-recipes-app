@@ -4,11 +4,9 @@ import userEvent from '@testing-library/user-event';
 import Foods from '../pages/Foods';
 import Drinks from '../pages/Drinks';
 import Profile from '../pages/Profile';
-import FoodsDetails from '../pages/FoodsDetails';
-import DrinksDetails from '../pages/DrinksDetails';
+import RecipeDetails from '../pages/RecipeDetails';
 import DoneRecipes from '../pages/DoneRecipes';
-import DrinksInProgress from '../pages/DrinksInProgress';
-import FoodsInProgress from '../pages/FoodsInProgress';
+import RecipeInProgress from '../pages/RecipesInProgress';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import App from '../App'
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
@@ -45,17 +43,17 @@ describe('Testando os componentes do header', () => {
     expect(searchProfile).toBeInTheDocument();
   });
 
-  test('testando componetes da pagina Foods Details', () => {
-    renderWithRouterProvider(<FoodsDetails />);
-    const titlePage = screen.getByText(/foodsdetails/i);
-    expect(titlePage).toBeInTheDocument();
-  });
+  // test('testando componetes da pagina Foods Details', () => {
+  //   renderWithRouterProvider(<RecipeDetails />);
+  //   const titlePage = screen.getByText(/foodsdetails/i);
+  //   expect(titlePage).toBeInTheDocument();
+  // });
 
-  test('testando componetes da pagina Drinks Details', () => {
-    renderWithRouterProvider(<DrinksDetails />);
-    const titlePage = screen.getByText(/drinksdetails/i);
-    expect(titlePage).toBeInTheDocument();
-  });
+  // test('testando componetes da pagina Drinks Details', () => {
+  //   renderWithRouterProvider(<RecipeDetails />);
+  //   const titlePage = screen.getByText(/drinksdetails/i);
+  //   expect(titlePage).toBeInTheDocument();
+  // });
 
   test('testando componetes da pagina Done recipes', () => {
     renderWithRouterProvider(<DoneRecipes />);
@@ -63,17 +61,17 @@ describe('Testando os componentes do header', () => {
     expect(titlePage).toBeInTheDocument();
   });
 
-  test('testando componetes da pagina Drinks progress', () => {
-    renderWithRouterProvider(<DrinksInProgress />);
-    const titlePage = screen.getByText(/drinksinprogress/i);
-    expect(titlePage).toBeInTheDocument();
-  });
+  // test('testando componetes da pagina Drinks progress', () => {
+  //   renderWithRouterProvider(<RecipeInProgress />);
+  //   const titlePage = screen.getByText(/drinksinprogress/i);
+  //   expect(titlePage).toBeInTheDocument();
+  // });
 
-  test('testando componetes da pagina Done recipes', () => {
-    renderWithRouterProvider(<FoodsInProgress />);
-    const titlePage = screen.getByText(/foodsinprogress/i);
-    expect(titlePage).toBeInTheDocument();
-  });
+  // test('testando componetes da pagina Done recipes', () => {
+  //   renderWithRouterProvider(<RecipeInProgress />);
+  //   const titlePage = screen.getByText(/foodsinprogress/i);
+  //   expect(titlePage).toBeInTheDocument();
+  // });
 
   test('testando componetes da pagina Done recipes', () => {
     renderWithRouterProvider(<FavoriteRecipes />);
@@ -108,7 +106,16 @@ describe('Testando os componentes do header', () => {
     const searchProfile = screen.getByTestId('profile-top-btn');
     userEvent.click(searchProfile);
     expect(searchProfile.closest('a')).toHaveAttribute('href', '/profile');
-  })
+  });
+
+  test('Verifica se o campo input aparece quando o botão search-top-btn é clicado', () => {
+    renderWithRouterProvider(<Drinks />);
+
+    const searchTopBtn = screen.getByTestId('search-top-btn');
+    userEvent.click(searchTopBtn);
+    const searchInput = screen.getByTestId('search-input');
+    expect(searchInput).toBeInTheDocument();
+  });
 
   
 });

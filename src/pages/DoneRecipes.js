@@ -60,7 +60,7 @@ function DoneRecipes() {
 
   return (
     <section>
-      <Header pageTitle="Done Recipes" />
+      <Header title="Done Recipes" />
       <button
         type="button"
         data-testid="filter-by-all-btn"
