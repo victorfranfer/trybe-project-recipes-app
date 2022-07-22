@@ -7,7 +7,7 @@ import Profile from '../pages/Profile';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import DoneRecipes from '../pages/DoneRecipes';
 import RecipeDetails from '../pages/RecipeDetails';
-import RecipesInProgress from '../pages/RecipesInProgress';
+import RecipeInProgress from '../pages/RecipeInProgress';
 
 const Routes = () => (
   <Switch>
@@ -22,12 +22,12 @@ const Routes = () => (
     <Route
       exact
       path="/foods/:idDaReceita/in-progress"
-      component={ RecipesInProgress }
+      component={ RecipeInProgress }
     />
     <Route
       exact
       path="/drinks/:idDaReceita/in-progress"
-      component={ RecipesInProgress }
+      component={ RecipeInProgress }
     />
   </Switch>
 );

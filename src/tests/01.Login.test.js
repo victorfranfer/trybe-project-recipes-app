@@ -1,6 +1,6 @@
 import React from "react";
 import { screen } from "@testing-library/react";
-import { cleanup } from "@testing-library/react";
+import { cleanup, waitFor } from "@testing-library/react";
 import { useHistory } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
@@ -37,8 +37,8 @@ describe("Validar se os elementos estão na tela", () => {
   });
 
   test("Testa se ao submeter o formulario, o usuario é redirecionado para a pagina de foods", async () => {
-    const { history } = useHistory();
-    renderWithRouterProvider(<App />);
+    // const { history } = useHistory();
+    const { history } = renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");
@@ -59,8 +59,7 @@ describe("Validar se os elementos estão na tela", () => {
   });
 
   test("verifica se o token está salvo no local storage", async () => {
-    const { history } = useHistory();
-    renderWithRouterProvider(<App />);
+    const { history } = renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");
@@ -74,24 +73,8 @@ describe("Validar se os elementos estão na tela", () => {
     });
   });
 
-  test("verifica se o formulario tem preventDefault", async () => {
-    renderWithRouterProvider(<App />);
-    const input = screen.getByTestId("email-input");
-    const password = screen.getByTestId("password-input");
-    const btnSubmit = screen.getByTestId("login-submit-btn");
-
-    userEvent.type(input, "lucas@gmail.com");
-    userEvent.type(password, "1234567");
-    userEvent.click(btnSubmit);
-
-    await waitFor(() => {
-      expect(btnSubmit.preventDefault).toBeTruthy();
-    });
-  })
-
   test("Verifica se o navigate.push('/foods'); funciona", () => {
-    const { history } = useHistory();
-    renderWithRouterProvider(<App />);
+    const { history } = renderWithRouterProvider(<App />);
     const input = screen.getByTestId("email-input");
     const password = screen.getByTestId("password-input");
     const btnSubmit = screen.getByTestId("login-submit-btn");

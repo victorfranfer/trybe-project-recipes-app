@@ -27,6 +27,7 @@ function SearchBar() {
       break;
     case `${url}foods`:
       if (foods.meals) {
+        console.log('requisição feita');
         setApiFoods([...foods.meals]);
       } else if (foods.meals === null) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');

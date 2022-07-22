@@ -5,144 +5,198 @@ import renderWithRouterProvider from './helper/renderWithRouterProvider';
 import mockFetch from './mocks/mockFetch';
 import { dataResponseCategories, dataResponseDrinks, dataResponseMeals } from './mocks/dataResponseApi';
 import App from '../App';
+import Header from '../components/Header';
+import SearchBar from '../components/SearchBar';
+import Foods from '../pages/Foods';
 
 global.alert = jest.fn();
 afterEach(cleanup)
 
-describe('verifica o componente Search.js', () => {
-  it('1 - Search bar de drinks redireciona quando tem 1 elemento na lista:', async () => {
-    mockFetch(dataResponseDrinks)
-    const { history } = renderWithRouterProvider(<App />);
-    history.push('/drinks');
+describe('verifica o componente searchbar', () => {
+  const testIdIngredientSearch = 'ingredient-search-radio';
+  const testIdNameSearch = 'name-search-radio';
+  const testIdFirstLetterSearch = 'first-letter-search-radio';
+  const testIdBtnExecSearch = 'exec-search-btn';
+  const testIdInputSearch = 'search-input';
+  const testIdSearchTopBtn = 'search-top-btn';
 
-    const searchIconElem = await screen.findByTestId('search-top-btn');
-    userEvent.click(searchIconElem);
-    const searchBarElem = await screen.findByTestId('search-input');
-    const searchBtnElem = await screen.findByTestId('exec-search-btn')
-    const radioNameElem = await screen.findByTestId('name-search-radio');
-    
-    expect(searchBarElem).toBeInTheDocument();
-    expect(searchBtnElem).toBeInTheDocument();
-    expect(radioNameElem).toBeInTheDocument();
+  afterEach(cleanup);
 
-    userEvent.click(radioNameElem);
-    userEvent.type(searchBarElem, 'florida');
-    userEvent.click(searchBtnElem);
+  it('1 - testa renderização dos botões', async () => {
+    renderWithRouterProvider(<SearchBar />);
 
-    await waitFor(() => expect(history.location.pathname).toBe('/drinks/14588'), { timeout: 4000});
+    // const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    // userEvent.click(searchTopBtn);
+    const btnExecSearch = screen.getByTestId(testIdBtnExecSearch);
+    const ingredientSearch = screen.getByTestId(testIdIngredientSearch);
+    const nameSearch = screen.getByTestId(testIdNameSearch);
+    const firstLetterSearch = screen.getByTestId(testIdFirstLetterSearch);
+    expect(btnExecSearch).toBeInTheDocument();
+    expect(ingredientSearch).toBeInTheDocument();
+    expect(nameSearch).toBeInTheDocument();
+    expect(firstLetterSearch).toBeInTheDocument();
   });
-  // test('Verifica se a página contem 12 itens renderizados', async () => {
-  //   renderWithRouterProvider(<Foods />)
+  it('2- Testa se não existe mais de uma categoria selecionada', () => {
+    renderWithRouterProvider(<SearchBar />);
+    const ingredientSearch = screen.getByLabelText(/ingredient/i);
+    const nameSearch = screen.getByLabelText(/name/i);
+    const letterSearch = screen.getByLabelText(/first letter/i);
+    userEvent.click(ingredientSearch);
+    expect(ingredientSearch).toBeChecked();
+    expect(nameSearch).not.toBeChecked();
+    expect(letterSearch).not.toBeChecked();
+    userEvent.click(nameSearch);
+    expect(ingredientSearch).not.toBeChecked();
+    expect(nameSearch).toBeChecked();
+    expect(letterSearch).not.toBeChecked();
+    userEvent.click(letterSearch);
+    expect(ingredientSearch).not.toBeChecked();
+    expect(nameSearch).not.toBeChecked();
+    expect(letterSearch).toBeChecked();
+  });
+  it(`3- Testa se ao selecionar ingredientes
+  a requisição é feita corretamente ao endpoint`, async () => {
+    mockFetch(dataResponseMeals.multiplesMeals);
+    renderWithRouterProvider(<Header  />);
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const ingredientSearch = screen.getByLabelText(/ingredient/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.click(ingredientSearch);
+    userEvent.type(inputSearch, 'chicken');
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(global.fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?i=chicken');
+    });
+  });
+  it(`4- Testa se ao selecionar name
+  a requisição é feita corretamente ao endpoint`, async () => {
+    mockFetch(dataResponseMeals.multiplesMeals);
+    renderWithRouterProvider(<Header  />);
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const nameSearch = screen.getByLabelText(/name/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'rice');
+    userEvent.click(nameSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(global.fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=rice');
+    });
+  });
 
-  //   const searchTopBtn = screen.getByTestId('search-top-btn');
-  //   userEvent.click(searchTopBtn);
-  //   const radioName = screen.getByTestId('name-search-radio');
-  //   userEvent.click(radioName);
-  //   const input = screen.getByTestId('search-input');
-  //   userEvent.type(input, 'chicken');
-  //   const execSearchBtn = screen.getByTestId('exec-search-btn');
-  //   userEvent.click(execSearchBtn);
+  it(`5- Testa se ao selecionar first letter
+  a requisição é feita corretamente ao endpoint`, async () => {
+    mockFetch(dataResponseMeals.multiplesMeals);
+    renderWithRouterProvider(<Header  />);
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const firstLetterSearch = screen.getByLabelText(/first letter/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'a');
+    userEvent.click(firstLetterSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(global.fetch).toBeCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?f=a');
+    });
+  });
 
-
-    
-  //   expect(await screen.findAllByRole('a')).toHaveLength(12)
-  // })
-//   test('verifica os elementos do componente', () => {
-//     renderWithRouterProvider(<Drinks />);
-
-//     const button = screen.getByTestId('search-top-btn');
-//     expect(button).toBeInTheDocument();
-    
-//     userEvent.click(button);
-
-//     const radio1 = screen.getByTextId('ingredient-search-radio');
-//     const radio2 = screen.getByTextId('name-search-radio');
-//     const radio3 = screen.getByTextId('first-letter-search-radio');
-//     const buttonSearch = screen.getByTextId('exec-search-btn');
-
-//     expect(radio1).toBeInTheDocument();
-//     expect(radio2).toBeInTheDocument();
-//     expect(radio3).toBeInTheDocument();
-//     expect(buttonSearch).toBeInTheDocument();
-//   });
-//   test('verifica se ao fizer busca renderiza resultados', () => {
-//     renderWithRouterProvider(<Drinks />);
-
-//     const searchBtn = screen.getByTestId('search-top-btn');
-    
-
-//     userEvent.click(searchBtn);
-//     const input = screen.getByTestId('search-input');
-
-//     expect(input).toBeInTheDocument();
-//     const nameRadio = screen.getByLabelText(/name/i);
-//     userEvent.click(nameRadio);
-//     userEvent.type(input, 'margarita');
-//     const buttonSearch = screen.getByTestId('exec-search-btn');
-//     userEvent.click(buttonSearch);
-//     jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve({
-//       status: 200,
-//       ok: true,
-//       json: () => Promise.resolve(responseDrinks)
-//     }));
-
-//     expect(global.fetch).toHaveBeenCalled();
-//     expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita');
-//   });
-
-//   test('Verifica se ao pesquisar pelo nome Xablau um alerta é emitido',async  () =>{
-//     renderWithRouterProvider(<Drinks />)
-    
-//     const searchBtn = screen.getByTestId('search-top-btn');
-//     userEvent.click(searchBtn);
-
-//     const filterSearchBtn = screen.getByTestId('exec-search-btn');    
-//     const searchInput = screen.getByTestId('search-input');
-//     const nameRadio = screen.getByLabelText(/name/i);
-
-//     userEvent.click(nameRadio);
-//     userEvent.type(searchInput,'xablau');
-//     userEvent.click(filterSearchBtn);
-
-//     await waitFor(() => {
-//        expect(global.alert).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.')
-//     })
-//   })
-//   test('Verifica se ao pesquisar pelo nome Chicken Handi é direcionado para a pagina de detalhe', async ()=> {
-//     const{history} = renderWithRouterProvider(<Drinks />)
-
-//     const searchBtn = screen.getByTestId('search-top-btn');
-//     userEvent.click(searchBtn);
-
-//     const filterSearchBtn = screen.getByTestId('exec-search-btn');    
-//     const searchInput = screen.getByTestId('search-input');
-//     const nameRadio = screen.getByLabelText(/name/i);
-
-//     userEvent.click(nameRadio);
-//     userEvent.type(searchInput,'chicken handi');
-//     userEvent.click(filterSearchBtn);
-
-//     expect(await screen.findByText('Chicken Handi')).toBeInTheDocument()
-//     await waitFor(()=>{
-//       expect(history.location.pathname).toBe('/foods/52795')
-//     })
-//     expect(screen.getByText(/Food detail page/i)).toBeInTheDocument()
-//   })
-  // test('Testando se ao inserir mais de uma letra um alerta é emitido', async () => {
-  //   const { history } = renderWithRouterProvider(<Drinks />)
-
-  //   const searchBtn = screen.getByTestId('search-top-btn');
-  //   userEvent.click(searchBtn);
-
-  //   const firstLetterRadio = screen.getByLabelText(/first letter/i);
-  //   const searchInput = screen.getByTestId('search-input');
-
-  //   userEvent.click(firstLetterRadio);
-  //   userEvent.type(searchInput,'aa');
-
-  //   await waitFor(()=>{
-  //     expect(global.alert).toBeCalled()
-  //   })
-
-  // })
+  it(`6- Testa se ao selecionar first letter
+  a e colocar mais de uma letra o alerta é mostrado`, async () => {
+    window.alert = jest.fn();
+    mockFetch(dataResponseMeals.multiplesMeals);
+    renderWithRouterProvider(<Header />);
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const firstLetterSearch = screen.getByLabelText(/first letter/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'aa');
+    userEvent.click(firstLetterSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      window.alert.mockClear();
+    });
+  });
+  it(`7- Testa se a requisição é feita corretamente
+  quando estiver na rota /drinks`, async () => {
+    mockFetch(dataResponseDrinks.multipleDrinks);
+    const { history } = renderWithRouterProvider(<Header />);
+    history.push('/drinks');
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const firstLetterSearch = screen.getByLabelText(/first letter/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'a');
+    userEvent.click(firstLetterSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(global.fetch).toBeCalledTimes(1);
+      expect(global.fetch).toBeCalledWith('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a');
+      global.fetch.mockClear();
+    });
+  });
+  it(`8- Testa se ao fazer a requisição com filtro no ingrediente e for retornado somente
+  uma receita a rota e redirecionada para /foods/idreceita`, async () => {
+    mockFetch(dataResponseMeals.singleMeal);
+    const { history } = renderWithRouterProvider(<Foods />);
+    history.push('/foods');
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const nameSearch = await screen.findByLabelText(/name/i);
+    const btnSearch = await screen.findByTestId(testIdBtnExecSearch);
+    const inputSearch = await screen.findByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'chicken');
+    userEvent.click(nameSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).toBeCalled();
+      expect(history.location.pathname).toBe('/foods/52940');
+      global.fetch.mockClear();
+    });
+  });
+  it(`9- Testa se deixar o campo de input vazio e tentar
+    buscar nenhuma chamada a api é realizada`, async () => {
+    mockFetch(dataResponseDrinks.singleDrink);
+    const { history } = renderWithRouterProvider(<Header />);
+    history.push('/drinks');
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const ingredientSearch = screen.getByLabelText(/ingredient/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    userEvent.click(ingredientSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(global.fetch).not.toBeCalled();
+      expect(global.fetch).not.toBeCalledTimes(1);
+      global.fetch.mockClear();
+    });
+  });
+  it(`10- Testa se nenhuma receita for encontrada
+    um alert e exibido`, async () => {
+    window.alert = jest.fn();
+    mockFetch({ drinks: null });
+    const { history } = renderWithRouterProvider(<SearchBar pageTitle="drinks" />);
+    history.push('/drinks');
+    const searchTopBtn = screen.getByTestId(testIdSearchTopBtn);
+    userEvent.click(searchTopBtn);
+    const ingredientSearch = screen.getByLabelText(/ingredient/i);
+    const btnSearch = screen.getByTestId(testIdBtnExecSearch);
+    const inputSearch = screen.getByTestId(testIdInputSearch);
+    userEvent.type(inputSearch, 'ronaldo');
+    userEvent.click(ingredientSearch);
+    userEvent.click(btnSearch);
+    await waitFor(() => {
+      expect(window.alert).toBeCalled();
+      expect(window.alert).toBeCalledTimes(1);
+    });
+  });
 })
