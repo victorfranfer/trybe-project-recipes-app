@@ -6,7 +6,7 @@ const ingredientDrink = (ingredient) => {
   return api;
 };
 
-const nameDrink = (name) => {
+export const nameDrink = (name = '') => {
   const api = fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`)
     .then((response) => response.json())
     .catch(() => console.log('error'));
@@ -43,7 +43,7 @@ const ingredientFood = (ingredient) => {
   return api;
 };
 
-const nameFood = (name) => {
+export const nameFood = (name = '') => {
   const api = fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`)
     .then((response) => response.json())
     .catch(() => console.log('error'));
@@ -100,22 +100,45 @@ export const fetchFoodById = (id) => {
   return (resultFetch.meals);
 };
 
-export const fetchDataFoods = () => {
+export const fetchDataFoods = async () => {
   const endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-  return fetch(endPoint).then((result) => result.json()).then((data) => data.meals);
+  const result = await fetch(endPoint);
+  const data = await result.json();
+  return data.meals;
 };
 
-export const fetchDataDrinks = () => {
+export const fetchDataDrinks = async () => {
   const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  return fetch(endPoint).then((result) => result.json()).then((data) => data.drinks);
+  const result = await fetch(endPoint);
+  const data = await result.json();
+  return data.drinks;
 };
 
-export const fetchCategoryFoods = () => {
+export const fetchCategoryFoods = async () => {
   const endPoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-  return fetch(endPoint).then((result) => result.json()).then((data) => data.meals);
+  const result = await fetch(endPoint);
+  const data = await result.json();
+  return data.meals;
 };
 
-export const fetchCategoryDrinks = () => {
+export const fetchCategoryDrinks = async () => {
   const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-  return fetch(endPoint).then((result) => result.json()).then((data) => data.drinks);
+  const result = await fetch(endPoint);
+  const data = await result.json();
+  return data.drinks;
+};
+
+export const requestDetails = {
+  food: async (idDaReceita) => {
+    const FOOD_DETAILS_URL = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${idDaReceita}`;
+    const response = await fetch(FOOD_DETAILS_URL);
+    const data = await response.json();
+    return data;
+  },
+  drink: async (idDaReceita) => {
+    const DRINK_DETAILS_URL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${idDaReceita}`;
+    const response = await fetch(DRINK_DETAILS_URL);
+    const data = await response.json();
+    return data;
+  },
 };
