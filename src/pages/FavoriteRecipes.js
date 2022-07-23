@@ -38,7 +38,7 @@ function FavoriteRecipes() {
 
   return (
     <section>
-      <Header pageTitle="Favorite Recipes" />
+      <Header title="Favorite Recipes" />
       <button
         type="button"
         data-testid="filter-by-all-btn"
