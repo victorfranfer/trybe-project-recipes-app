@@ -1,6 +1,6 @@
 import React from 'react';
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
-import RecipeCard from '../components/RecipeCard';
+import RecipeCard from '../components/RecipeDetailsCard';
 import { dataResponseDrinks, dataResponseMeals } from './mocks/dataResponseApi';
 
 describe('testa o componente RecipieCard', () => {

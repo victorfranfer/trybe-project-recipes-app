@@ -13,6 +13,8 @@ export default function RecipeInProgress({
   const [recipe, setRecipe] = useState('');
   const [ingredients, setIngredient] = useState([]);
   const [measures, setMeasures] = useState([]);
+  // const { stepDone, setStepDone } = useContext(RecipesContext);
+  // const [checked, setChecked] = useState(false);
 
   useEffect(() => {
     const getRecipe = async () => {
@@ -35,6 +37,11 @@ export default function RecipeInProgress({
     setMeasures(measuresFiltered);
   }, [recipe]);
 
+  // const handleClick = (e) => {
+  //   setStepDone([...stepDone, e.target.value]);
+  //   setChecked(!checked);
+  // };
+
   return (
     <div>
       <h3>Pagina de Receita em Andamento</h3>
@@ -53,7 +60,13 @@ export default function RecipeInProgress({
           && ingredients.map((ingredient, index) => (
             <li key={ ingredient } data-testid={ `${index}-ingredient-step` }>
               <label htmlFor={ ingredient }>
-                <input id={ ingredient } type="checkbox" />
+                <input
+                  id={ ingredient }
+                  type="checkbox"
+                  // value={ ingredient }
+                  // checked={ checked }
+                  // onChange={ () => setChecked(!checked) }
+                />
                 {`${ingredient} ${measures[index]}`}
               </label>
             </li>

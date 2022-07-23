@@ -26,7 +26,8 @@ function Header({ title, search }) {
         </button>
       </Link>
 
-      {search && (
+      { search
+      && (
         <button
           type="button"
           onClick={ handleInput }
