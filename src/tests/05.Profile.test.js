@@ -1,45 +1,48 @@
-import React from "react";
-import { screen, waitFor } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import Profile from '../pages/Profile';
+import React from 'react';
+import userEvent from '@testing-library/user-event';
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
+import Profile from '../pages/Profile';
 
-describe("Validar se os elementos estão na tela", () => {
-  it("testa se os elementos são renderizados", () => {
-    renderWithRouterProvider(<Profile />);
-    const pageTitle = screen.getByTestId('page-title');
-    const profileEmail = screen.getByTestId('profile-email');
-    const doneRecipesBtn = screen.getByTestId('profile-done-btn');
-    const favoriteRecipesBtn = screen.getByTestId('profile-favorite-btn');
-    const logoutButton = screen.getByTestId('profile-logout-btn');
+describe('Testa o componente Profile', () => {
+  const testIdEmail = 'profile-email';
+  const testIdBtnDone = 'profile-done-btn';
+  const testIdBtnFavorite = 'profile-favorite-btn';
+  const testIdBtnLogout = 'profile-logout-btn';
 
-    expect(pageTitle).toBeInTheDocument();
-    expect(profileEmail).toBeInTheDocument();
-    expect(doneRecipesBtn).toBeInTheDocument();
-    expect(favoriteRecipesBtn).toBeInTheDocument();
-    expect(logoutButton).toBeInTheDocument();
+  test('Testa se renderiza o header com o titulo "Profile"', async () => {
+    const { getByRole } = renderWithRouterProvider(<Profile />);
+    const title = getByRole('heading', {
+      name: /profile/i,
+    });
+    expect(title).toBeInTheDocument();
   });
-  it("testa o botão Done Recipes", async () => {
-    const { history } = renderWithRouterProvider(<Profile />);
-    const doneRecipesBtn = screen.getByTestId('profile-done-btn');
 
-    userEvent.click(doneRecipesBtn);
-
-    await waitFor(() => expect(history.location.pathname).toBe('/done-recipes'));
+  test('Testa se os botões estão no Profile', () => {
+    const { getByTestId } = renderWithRouterProvider(<Profile />);
+    const btnDone = getByTestId(testIdBtnDone);
+    const btnFavorite = getByTestId(testIdBtnFavorite);
+    const btnLogout = getByTestId(testIdBtnLogout);
+    expect(btnDone).toBeInTheDocument();
+    expect(btnFavorite).toBeInTheDocument();
+    expect(btnLogout).toBeInTheDocument();
   });
-  it("testa o botão Favorite Recipes", async () => {
-    const { history } = renderWithRouterProvider(<Profile />);
-    const favoriteRecipesBtn = screen.getByTestId('profile-favorite-btn');
 
-    userEvent.click(favoriteRecipesBtn);
-
-    await waitFor(() => expect(history.location.pathname).toBe('/favorite-recipes'));
+  test('Testa se ao clicar no botão é redirecionado', () => {
+    const { getByTestId, history } = renderWithRouterProvider(<Profile />);
+    const btnDone = getByTestId(testIdBtnDone);
+    const btnFavorite = getByTestId(testIdBtnFavorite);
+    const btnLogout = getByTestId(testIdBtnLogout);
+    userEvent.click(btnDone);
+    expect(history.location.pathname).toBe('/done-recipes');
+    userEvent.click(btnFavorite);
+    expect(history.location.pathname).toBe('/favorite-recipes');
+    userEvent.click(btnLogout);
+    expect(history.location.pathname).toBe('/');
   });
-  it("testa o botão Logout", async () => {
-    const { history } = renderWithRouterProvider(<Profile />);
-    const logoutButton = screen.getByTestId('profile-logout-btn');
-    
-    userEvent.click(logoutButton);
-    await waitFor(() => expect(history.location.pathname).toBe('/'));
-  })
+
+  test('Testa se o email é visivel', () => {
+    const { getByTestId } = renderWithRouterProvider(<Profile />);
+    const userEmail = getByTestId(testIdEmail);
+    userEvent.type(userEmail, 'teste@teste.com');
+  });
 });

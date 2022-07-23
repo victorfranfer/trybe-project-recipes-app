@@ -3,16 +3,22 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouterProvider from './helper/renderWithRouterProvider';
 import RecipeInProgress from '../pages/RecipeInProgress';
 import mockFetch from './mocks/mockFetch';
+import localStorageMock from './mocks/localStorageMock';
 import dataResponseDetails from './mocks/dataResponseDetails';
 
 describe('Testa o componente RecipeInProgress', () => {
+  const routeDrinkDetail = 'drinks/15997/in-progress';
   test('Testa se renderiza o header com o titulo "Receita em Progresso"', async () => {
     mockFetch(dataResponseDetails.drink);
     const {
       getByRole,
       findByText,
     } = renderWithRouterProvider(
-      <RecipeInProgress match={ { params: 15997, url: '/drinks/15997' } } />,
+      <RecipeInProgress
+        match={
+          { params: { recipeId: '15997' }, url: routeDrinkDetail }
+        }
+      />,
     );
     const title = getByRole('heading', {
       name: /Pagina de Receita em Andamento/i,
@@ -22,13 +28,17 @@ describe('Testa o componente RecipeInProgress', () => {
     expect(recipeTitle).toBeInTheDocument();
   });
 
-  test('Testa se se é possivel checar um ingredient e deschecar', async () => {
+  test('Testa se se é possivel checar um ingrediente e deschecar', async () => {
     mockFetch(dataResponseDetails.drink);
     const {
       findByText,
     } = renderWithRouterProvider(
-      <RecipeInProgress match={ { params: 15997, url: 'drinks/15997/in-progress' } } />,
-      { route: 'drinks/15997/in-progress' },
+      <RecipeInProgress
+        match={
+          { params: { recipeId: '15997' }, url: routeDrinkDetail }
+        }
+      />,
+      { route: routeDrinkDetail },
     );
     const recipeTitle = await findByText(/GG/i);
     const ingredientOne = await findByText(/galliano 2 1\/2 shots/i);
@@ -45,8 +55,12 @@ describe('Testa o componente RecipeInProgress', () => {
       findByText,
       findByRole,
     } = renderWithRouterProvider(
-      <RecipeInProgress match={ { params: 15997, url: 'drinks/15997/in-progress' } } />,
-      { route: 'drinks/15997/in-progress' },
+      <RecipeInProgress
+        match={
+          { params: { recipeId: '15997' }, url: routeDrinkDetail }
+        }
+      />,
+      { route: routeDrinkDetail },
     );
     const buttonFinish = await findByRole('button', {
       name: /finish recipe/i,
@@ -59,6 +73,38 @@ describe('Testa o componente RecipeInProgress', () => {
     userEvent.click(ingredientOne);
     userEvent.click(ingredientTwo);
     userEvent.click(ingredientThree);
+    expect(buttonFinish).not.toBeDisabled();
+    userEvent.click(buttonFinish);
+  });
+  test(`Testa set todos os ingredientes estavam preenchidos
+  ao recarregar a pagina o botão finish recipe continua habilitado`, async () => {
+    mockFetch(dataResponseDetails.drink);
+    localStorageMock();
+    const data = {
+      cocktails: {
+        15997: [
+          'Ice null',
+          'Ginger ale null',
+          'Galliano 2 1/2 shots ',
+        ],
+      },
+    };
+    window.localStorage.setItem('inProgressRecipes', JSON.stringify(data));
+    const {
+      findByRole,
+    } = renderWithRouterProvider(
+      <RecipeInProgress
+        match={
+          { params: { recipeId: '15997' }, url: routeDrinkDetail }
+        }
+      />,
+      { route: routeDrinkDetail },
+    );
+    const buttonFinish = await findByRole('button', {
+      name: /finish recipe/i,
+    });
+    expect(buttonFinish).toBeInTheDocument();
+    expect(buttonFinish).not.toBeDisabled();
     userEvent.click(buttonFinish);
   });
 });
