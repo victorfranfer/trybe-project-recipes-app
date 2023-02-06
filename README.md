@@ -1,4 +1,4 @@
-# :construction: README customizado em construção ! :construction:
+# Recipes App: Trybe-Project
 <!-- Olá, Tryber!
 Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
 
@@ -11,3 +11,6 @@ Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua cr
 - quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
 - quais arquivos/pastas foram desenvolvidos pela Trybe.
 -->
+Group project in which we developped an app for users to check recipes, save them in their favorites list and mark the ones they've already done. Used Context API and React Hooks.
+
+Done in August 2022.
